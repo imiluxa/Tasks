@@ -28,6 +28,9 @@ public class Controller {
     // The Work method
     public void processUser(){
         Scanner sc = new Scanner(System.in);
+        int generatedNumber = model.getRandomNumber();
+        view.printMessage(String.valueOf(generatedNumber));
+
 
         sc.close();
     }
@@ -36,4 +39,19 @@ public class Controller {
     /*
      *Waiting for update
      */
+    public String letTheGameBegin(Scanner sc, int generatedNumber) {
+        view.printMessage(View.INITIAL_MESSAGE + View.DELIMITER);
+        while( ! sc.hasNextInt(generatedNumber)) {
+            if ( ! model.range.contains(sc.nextInt())) {
+                view.printMessage(View.ERROR_NOT_IN_RANGE);
+            }
+            if sc.nextInt() > generatedNumber {
+                view.printMessage(View.ERROR_HIGHER);
+
+            }
+            view.printMessage(View.WRONG_INPUT_STR_DATA + wait_input + View.DELIMITER);
+            sc.next();
+        }
+        return sc.next();
+    }
 }
