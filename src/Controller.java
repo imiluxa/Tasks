@@ -29,8 +29,8 @@ public class Controller {
     public void processUser(){
         Scanner sc = new Scanner(System.in);
         int generatedNumber = model.getRandomNumber();
-        view.printMessage(String.valueOf(generatedNumber));
-
+        //view.printMessage(String.valueOf(generatedNumber));
+        this.letTheGameBegin(sc, generatedNumber);
 
         sc.close();
     }
@@ -41,21 +41,30 @@ public class Controller {
      */
     public void letTheGameBegin(Scanner sc, int generatedNumber) {
         view.printMessage(View.INITIAL_MESSAGE + View.DELIMITER);
-        while( ! sc.hasNextInt(generatedNumber)) {
+        //sc.nextInt();
+        while (true) {
             int input = sc.nextInt();
-            if ( ! model.range.contains(input)) {
-                view.printMessage(View.ERROR_NOT_IN_RANGE);
-            }
-            if (input > generatedNumber) {
-                view.printMessage(View.ERROR_HIGHER);
-                model.range.updateRange(model.range.getLower(), input);
+            if (input != generatedNumber) {
+                if (!model.range.contains(input)) {
+                    view.printMessage(View.ERROR_NOT_IN_RANGE);
+                    model.addStatistics(input);
+                    continue;
+                }
+                if (input > generatedNumber) {
+                    view.printMessage(View.ERROR_HIGHER);
+                    model.range.updateRange(model.range.getLower(), input);
+                } else {
+                    view.printMessage(View.ERROR_LOWER);
+                    model.range.updateRange(input, model.range.getHigher());
+                }
+                model.addStatistics(input);
+                //sc.nextInt();
             } else {
-                view.printMessage(View.ERROR_LOWER);
-                model.range.updateRange(input, model.range.getHigher());
+                model.addStatistics(input);
+                view.printMessage(View.CONGRATULATIONS);
+                view.printArray(model.getHistory());
+                break;
             }
-            model.addStatistics(input);
-            sc.nextInt();
         }
-        model.addStatistics(sc.nextInt());
     }
 }
