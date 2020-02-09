@@ -15,4 +15,11 @@ public class Range {
         this.lower = lower;
         this.higher = higher;
     }
+
+    public int getLower() {
+        return this.lower;
+    }
+    public int getHigher() {
+        return this.higher;
+    }
 }

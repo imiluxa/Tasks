@@ -39,19 +39,23 @@ public class Controller {
     /*
      *Waiting for update
      */
-    public String letTheGameBegin(Scanner sc, int generatedNumber) {
+    public void letTheGameBegin(Scanner sc, int generatedNumber) {
         view.printMessage(View.INITIAL_MESSAGE + View.DELIMITER);
         while( ! sc.hasNextInt(generatedNumber)) {
-            if ( ! model.range.contains(sc.nextInt())) {
+            int input = sc.nextInt();
+            if ( ! model.range.contains(input)) {
                 view.printMessage(View.ERROR_NOT_IN_RANGE);
             }
-            if sc.nextInt() > generatedNumber {
+            if (input > generatedNumber) {
                 view.printMessage(View.ERROR_HIGHER);
-
+                model.range.updateRange(model.range.getLower(), input);
+            } else {
+                view.printMessage(View.ERROR_LOWER);
+                model.range.updateRange(input, model.range.getHigher());
             }
-            view.printMessage(View.WRONG_INPUT_STR_DATA + wait_input + View.DELIMITER);
-            sc.next();
+            model.addStatistics(input);
+            sc.nextInt();
         }
-        return sc.next();
+        model.addStatistics(sc.nextInt());
     }
 }

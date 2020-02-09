@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -7,6 +8,7 @@ public class Model {
     private static final int MIN_VALUE_INIT = 0;
     private static final int MAX_VALUE_INIT = 100;
     public Range range;
+    private ArrayList<Integer> history = new ArrayList<>();
 
     private int rand( ) {
         Random random = new Random();
@@ -24,6 +26,14 @@ public class Model {
 
     public int getRandomNumber() {
         return rand();
+    }
+
+    public void addStatistics(int number) {
+        history.add(number);
+    }
+
+    public ArrayList<Integer> getHistory() {
+        return history;
     }
 
 
